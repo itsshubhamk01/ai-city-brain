@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  ::selection {
+    background-color: rgba(91, 141, 239, 0.35);
+  }
+  * {
+    scrollbar-color: #25314D transparent;
+    scrollbar-width: thin;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #25314D;
+    border-radius: 999px;
+  }
+  :focus-visible {
+    outline: 2px solid #5B8DEF;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply bg-surface border border-hairline rounded-xl shadow-panel;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium
+           transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-white hover:bg-accent-soft;
+  }
+  .btn-secondary {
+    @apply btn bg-raised text-ink border border-hairline hover:bg-hairline;
+  }
+  .btn-danger {
+    @apply btn bg-signal-critical/90 text-white hover:bg-signal-critical;
+  }
+  .input {
+    @apply w-full rounded-lg bg-raised border border-hairline px-3 py-2 text-sm text-ink
+           placeholder:text-ink-faint focus:border-accent outline-none transition-colors;
+  }
+  .label {
+    @apply text-xs font-medium uppercase tracking-wider text-ink-muted;
+  }
+}
+
+/* Leaflet dark-theme tweaks */
+.leaflet-container {
+  background: #0B1120 !important;
+  font-family: 'Inter', sans-serif;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: #16213A;
+  color: #E7ECF7;
+}
+.leaflet-control-attribution {
+  background: rgba(11,17,32,0.7) !important;
+  color: #8B98B8 !important;
+}
+.leaflet-control-attribution a {
+  color: #8FB0F5 !important;
+}
