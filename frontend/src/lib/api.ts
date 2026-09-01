@@ -4,10 +4,14 @@ import type {
   CityStatus,
   CurrentUser,
   DecisionFeedItem,
+  IndianState,
   Incident,
   LoginResponse,
   MapData,
+  ReverseGeocodeResponse,
+  SearchResponse,
   SimulationState,
+  WeatherResponse,
   WhatIfRequest,
   WhatIfResponse,
   ZoneHistoryPoint,
@@ -100,6 +104,13 @@ export const api = {
     request<SimulationState>('/api/v1/simulation/scenario', { method: 'POST', body: JSON.stringify({ scenarioKey }) }),
 
   whatIf: (payload: WhatIfRequest) => request<WhatIfResponse>('/api/v1/whatif', { method: 'POST', body: JSON.stringify(payload) }),
+
+  // --- Real location & weather (public, no auth needed) ---
+  indianStates: () => request<IndianState[]>('/api/v1/geo/states'),
+  searchLocation: (q: string) => request<SearchResponse>(`/api/v1/geo/search?q=${encodeURIComponent(q)}`),
+  reverseGeocode: (lat: number, lng: number) =>
+    request<ReverseGeocodeResponse>(`/api/v1/geo/reverse?lat=${lat}&lng=${lng}`),
+  weather: (lat: number, lng: number) => request<WeatherResponse>(`/api/v1/weather?lat=${lat}&lng=${lng}`),
 }
 
 export function wsUrl(): string {

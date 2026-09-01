@@ -223,3 +223,89 @@ export interface ApiError {
   path: string
   details: string[]
 }
+
+// --- Real location & weather (India platform) ---
+
+export interface IndianState {
+  name: string
+  type: 'STATE' | 'UNION_TERRITORY'
+}
+
+export interface LocationSuggestion {
+  displayName: string
+  lat: number
+  lng: number
+  city: string | null
+  state: string | null
+  country: string | null
+  type: string | null
+}
+
+export interface SearchResponse {
+  query: string
+  results: LocationSuggestion[]
+  available: boolean
+}
+
+export interface ReverseGeocodeResponse {
+  lat: number
+  lng: number
+  displayName: string | null
+  city: string | null
+  district: string | null
+  state: string | null
+  country: string | null
+  available: boolean
+}
+
+export interface CurrentConditions {
+  temperatureC: number | null
+  feelsLikeC: number | null
+  humidityPct: number | null
+  windSpeedKmh: number | null
+  windDirectionDeg: number | null
+  pressureHpa: number | null
+  precipitationMm: number | null
+  condition: string | null
+  isDay: boolean | null
+}
+
+export interface DailyForecastDay {
+  date: string
+  tempMinC: number | null
+  tempMaxC: number | null
+  condition: string | null
+  sunrise: string | null
+  sunset: string | null
+  uvIndexMax: number | null
+  precipitationProbabilityMaxPct: number | null
+}
+
+export interface HourlyForecastPoint {
+  time: string
+  temperatureC: number | null
+  precipitationProbabilityPct: number | null
+  condition: string | null
+}
+
+export interface WeatherResponse {
+  lat: number
+  lng: number
+  available: boolean
+  unavailableReason: string | null
+  current: CurrentConditions | null
+  daily: DailyForecastDay[]
+  hourly: HourlyForecastPoint[]
+  source: string
+  fetchedAt: string
+}
+
+export interface SelectedLocation {
+  lat: number
+  lng: number
+  label: string
+  city: string | null
+  state: string | null
+  source: 'gps' | 'search' | 'default'
+  accuracyM: number | null
+}

@@ -20,7 +20,7 @@ export default function LoginPage() {
     setSubmitting(true)
     try {
       await login(u, p)
-      navigate('/', { replace: true })
+      navigate('/app', { replace: true })
     } catch {
       // error surfaced via auth context
     } finally {
@@ -107,7 +107,7 @@ export default function LoginPage() {
 
         <div className="mt-6">
           <p className="label text-center mb-3">Quick demo login</p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {DEMO_ACCOUNTS.map((acc) => (
               <button
                 key={acc.username}

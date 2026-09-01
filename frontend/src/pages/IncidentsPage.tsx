@@ -89,7 +89,7 @@ export default function IncidentsPage() {
         <div className="divide-y divide-hairline">
           {incidents.length === 0 && <EmptyState title="No active incidents" description="NovaCity is running smoothly." />}
           {incidents.map((incident) => (
-            <div key={incident.id} className="px-5 py-4 flex items-center justify-between gap-4">
+            <div key={incident.id} className="px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <SeverityBadge level={incident.severity} />
@@ -99,7 +99,7 @@ export default function IncidentsPage() {
                 <p className="text-sm font-medium text-ink truncate">{titleCase(incident.type)} — {incident.zoneName}</p>
                 <p className="text-xs text-ink-muted mt-0.5 truncate">{incident.description}</p>
               </div>
-              <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-3 shrink-0 self-start sm:self-auto">
                 <span className="text-xs text-ink-faint">{timeAgo(incident.createdAt)}</span>
                 {canManage && NEXT_STATUS[incident.status] && (
                   <button onClick={() => advanceStatus(incident)} className="btn-secondary !px-3 !py-1.5 text-xs">

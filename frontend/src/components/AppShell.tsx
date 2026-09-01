@@ -8,48 +8,78 @@ import {
   SlidersHorizontal,
   LogOut,
   Building2,
+  Menu,
+  X,
 } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { ROLE_LABELS } from '../lib/constants'
 import { ConnectionBadge } from './common'
-import { formatClock } from '../lib/utils'
+import { cx, formatClock } from '../lib/utils'
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Command Center', icon: LayoutDashboard, end: true },
-  { to: '/map', label: 'City Map', icon: MapIcon, end: false },
-  { to: '/incidents', label: 'Incidents', icon: Siren, end: false },
-  { to: '/agents', label: 'AI Decisions', icon: Bot, end: false },
-  { to: '/simulation', label: 'Simulation', icon: SlidersHorizontal, end: false },
+  { to: '/app', label: 'Command Center', icon: LayoutDashboard, end: true },
+  { to: '/app/map', label: 'City Map', icon: MapIcon, end: false },
+  { to: '/app/incidents', label: 'Incidents', icon: Siren, end: false },
+  { to: '/app/agents', label: 'AI Decisions', icon: Bot, end: false },
+  { to: '/app/simulation', label: 'Simulation', icon: SlidersHorizontal, end: false },
 ]
 
 export function AppShell() {
   const { user, logout } = useAuth()
   const [now, setNow] = useState(new Date())
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
     return () => clearInterval(id)
   }, [])
 
+  const closeSidebar = () => setSidebarOpen(false)
+
   return (
     <div className="flex h-screen bg-base text-ink overflow-hidden">
-      <aside className="w-60 shrink-0 border-r border-hairline bg-surface flex flex-col">
-        <div className="flex items-center gap-2 px-5 py-5">
-          <div className="h-8 w-8 rounded-lg bg-accent/15 flex items-center justify-center">
-            <Building2 size={18} className="text-accent" />
-          </div>
-          <div>
-            <p className="font-display text-sm font-semibold leading-none">AI City Brain</p>
-            <p className="text-[11px] text-ink-faint mt-0.5">NovaCity Ops</p>
-          </div>
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+          onClick={closeSidebar}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside
+        className={cx(
+          'w-64 shrink-0 border-r border-hairline bg-surface flex flex-col',
+          'fixed inset-y-0 left-0 z-40 transition-transform duration-200 ease-out',
+          'lg:static lg:translate-x-0',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        <div className="flex items-center justify-between gap-2 px-5 py-5">
+          <a href="/" className="flex items-center gap-2 min-w-0">
+            <div className="h-8 w-8 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
+              <Building2 size={18} className="text-accent" />
+            </div>
+            <div className="min-w-0">
+              <p className="font-display text-sm font-semibold leading-none truncate">AI City Brain</p>
+              <p className="text-[11px] text-ink-faint mt-0.5">NovaCity Digital Twin (Demo)</p>
+            </div>
+          </a>
+          <button
+            onClick={closeSidebar}
+            className="lg:hidden text-ink-muted hover:text-ink p-1 shrink-0"
+            aria-label="Close menu"
+          >
+            <X size={18} />
+          </button>
         </div>
 
-        <nav className="flex-1 px-3 space-y-1">
+        <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
           {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}
               to={to}
               end={end}
+              onClick={closeSidebar}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                   isActive ? 'bg-accent/15 text-accent' : 'text-ink-muted hover:bg-raised hover:text-ink'
@@ -77,9 +107,18 @@ export function AppShell() {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 shrink-0 border-b border-hairline flex items-center justify-end gap-5 px-6">
-          <ConnectionBadge />
-          <span className="font-mono text-xs text-ink-muted">{formatClock(now)}</span>
+        <header className="h-14 shrink-0 border-b border-hairline flex items-center justify-between lg:justify-end gap-4 px-4 lg:px-6">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden text-ink-muted hover:text-ink p-1 -ml-1"
+            aria-label="Open menu"
+          >
+            <Menu size={20} />
+          </button>
+          <div className="flex items-center gap-4 lg:gap-5">
+            <ConnectionBadge />
+            <span className="hidden sm:inline font-mono text-xs text-ink-muted">{formatClock(now)}</span>
+          </div>
         </header>
         <main className="flex-1 overflow-y-auto">
           <Outlet />

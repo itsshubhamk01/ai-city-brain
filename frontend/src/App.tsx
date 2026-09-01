@@ -1,8 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './hooks/useAuth'
 import { WebSocketProvider } from './hooks/useWebSocket'
+import { LocationProvider } from './hooks/useLocationContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AppShell } from './components/AppShell'
+import LandingPage from './pages/LandingPage'
+import ExplorePage from './pages/ExplorePage'
 import LoginPage from './pages/LoginPage'
 import CommandCenterPage from './pages/CommandCenterPage'
 import MapPage from './pages/MapPage'
@@ -13,7 +16,7 @@ import SimulationPage from './pages/SimulationPage'
 function LoginRoute() {
   const { user, loading } = useAuth()
   if (loading) return null
-  if (user) return <Navigate to="/" replace />
+  if (user) return <Navigate to="/app" replace />
   return <LoginPage />
 }
 
@@ -21,26 +24,34 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <WebSocketProvider>
-          <Routes>
-            <Route path="/login" element={<LoginRoute />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <AppShell />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<CommandCenterPage />} />
-              <Route path="map" element={<MapPage />} />
-              <Route path="incidents" element={<IncidentsPage />} />
-              <Route path="agents" element={<AgentsPage />} />
-              <Route path="simulation" element={<SimulationPage />} />
-            </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </WebSocketProvider>
+        <LocationProvider>
+          <WebSocketProvider>
+            <Routes>
+              {/* Public — no login required */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/explore" element={<ExplorePage />} />
+              <Route path="/login" element={<LoginRoute />} />
+
+              {/* Protected — the original NovaCity digital-twin simulation demo */}
+              <Route
+                path="/app"
+                element={
+                  <ProtectedRoute>
+                    <AppShell />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<CommandCenterPage />} />
+                <Route path="map" element={<MapPage />} />
+                <Route path="incidents" element={<IncidentsPage />} />
+                <Route path="agents" element={<AgentsPage />} />
+                <Route path="simulation" element={<SimulationPage />} />
+              </Route>
+
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </WebSocketProvider>
+        </LocationProvider>
       </AuthProvider>
     </BrowserRouter>
   )
