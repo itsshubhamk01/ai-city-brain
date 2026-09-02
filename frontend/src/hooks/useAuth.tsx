@@ -7,6 +7,7 @@ interface AuthContextValue {
   loading: boolean
   error: string | null
   login: (username: string, password: string) => Promise<void>
+  register: (payload: { username: string; password: string; fullName: string; email: string }) => Promise<void>
   logout: () => void
 }
 
@@ -50,12 +51,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  async function register(payload: { username: string; password: string; fullName: string; email: string }) {
+    setError(null)
+    try {
+      const response = await api.register(payload)
+      setToken(response.token)
+      const me = await api.me()
+      setUser(me)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Registration failed')
+      throw e
+    }
+  }
+
   function logout() {
     clearToken()
     setUser(null)
   }
 
-  const value = useMemo(() => ({ user, loading, error, login, logout }), [user, loading, error])
+  const value = useMemo(() => ({ user, loading, error, login, register, logout }), [user, loading, error])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

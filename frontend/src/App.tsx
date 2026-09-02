@@ -5,7 +5,6 @@ import { LocationProvider } from './hooks/useLocationContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AppShell } from './components/AppShell'
 import LandingPage from './pages/LandingPage'
-import ExplorePage from './pages/ExplorePage'
 import LoginPage from './pages/LoginPage'
 import CommandCenterPage from './pages/CommandCenterPage'
 import MapPage from './pages/MapPage'
@@ -29,7 +28,7 @@ export default function App() {
             <Routes>
               {/* Public — no login required */}
               <Route path="/" element={<LandingPage />} />
-              <Route path="/explore" element={<ExplorePage />} />
+              <Route path="/explore" element={<Navigate to="/" replace />} />
               <Route path="/login" element={<LoginRoute />} />
 
               {/* Protected — the original NovaCity digital-twin simulation demo */}

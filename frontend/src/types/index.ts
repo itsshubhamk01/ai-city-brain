@@ -18,6 +18,13 @@ export interface LoginResponse {
   expiresAt: string
 }
 
+export interface RegisterRequest {
+  username: string
+  password: string
+  fullName: string
+  email: string
+}
+
 export interface CurrentUser {
   username: string
   fullName: string

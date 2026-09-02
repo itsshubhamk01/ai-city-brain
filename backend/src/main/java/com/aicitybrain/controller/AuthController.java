@@ -25,9 +25,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Log in with a demo account and receive a JWT")
+    @Operation(summary = "Log in and receive a JWT")
     public ResponseEntity<AuthDtos.LoginResponse> login(@Valid @RequestBody AuthDtos.LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/register")
+    @Operation(summary = "Create a new citizen account and receive a JWT immediately")
+    public ResponseEntity<AuthDtos.LoginResponse> register(@Valid @RequestBody AuthDtos.RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
     }
 
     @GetMapping("/me")

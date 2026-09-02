@@ -8,6 +8,7 @@ import type {
   Incident,
   LoginResponse,
   MapData,
+  RegisterRequest,
   ReverseGeocodeResponse,
   SearchResponse,
   SimulationState,
@@ -77,6 +78,8 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 export const api = {
   login: (username: string, password: string) =>
     request<LoginResponse>('/api/v1/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
+  register: (payload: RegisterRequest) =>
+    request<LoginResponse>('/api/v1/auth/register', { method: 'POST', body: JSON.stringify(payload) }),
   me: () => request<CurrentUser>('/api/v1/auth/me'),
 
   cityStatus: () => request<CityStatus>('/api/v1/city/status'),
