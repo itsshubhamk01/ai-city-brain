@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 import {
   LayoutDashboard,
   Map as MapIcon,
@@ -10,6 +10,7 @@ import {
   Building2,
   Menu,
   X,
+  ArrowLeft,
 } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { ROLE_LABELS } from '../lib/constants'
@@ -55,15 +56,15 @@ export function AppShell() {
         )}
       >
         <div className="flex items-center justify-between gap-2 px-5 py-5">
-          <a href="/" className="flex items-center gap-2 min-w-0">
+          <Link to="/" className="flex items-center gap-2 min-w-0">
             <div className="h-8 w-8 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
               <Building2 size={18} className="text-accent" />
             </div>
             <div className="min-w-0">
               <p className="font-display text-sm font-semibold leading-none truncate">AI City Brain</p>
-              <p className="text-[11px] text-ink-faint mt-0.5">NovaCity Digital Twin (Demo)</p>
+              <p className="text-[11px] text-ink-faint mt-0.5">Architecture Demo (not Mumbai data)</p>
             </div>
-          </a>
+          </Link>
           <button
             onClick={closeSidebar}
             className="lg:hidden text-ink-muted hover:text-ink p-1 shrink-0"
@@ -71,6 +72,11 @@ export function AppShell() {
           >
             <X size={18} />
           </button>
+        </div>
+        <div className="px-3 -mt-2 mb-2">
+          <Link to="/" className="flex items-center gap-1.5 text-[11px] text-accent-soft hover:text-accent px-2 py-1">
+            <ArrowLeft size={12} /> Back to the real Mumbai page
+          </Link>
         </div>
 
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto">

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { Building2, Loader2 } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 
@@ -10,6 +10,7 @@ const SKYLINE = [
 export default function LoginPage() {
   const { login, error } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -18,7 +19,8 @@ export default function LoginPage() {
     setSubmitting(true)
     try {
       await login(u, p)
-      navigate('/app', { replace: true })
+      const destination = (location.state as { from?: string } | null)?.from ?? '/'
+      navigate(destination, { replace: true })
     } catch {
       // error surfaced via auth context
     } finally {

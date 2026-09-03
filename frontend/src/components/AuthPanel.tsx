@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { cx } from '../lib/utils'
@@ -7,6 +7,7 @@ import { cx } from '../lib/utils'
 export function AuthPanel() {
   const { login, register, error } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [mode, setMode] = useState<'signin' | 'register'>('signin')
   const [submitting, setSubmitting] = useState(false)
   const [username, setUsername] = useState('')
@@ -23,7 +24,8 @@ export function AuthPanel() {
       } else {
         await register({ username, password, fullName, email })
       }
-      navigate('/app', { replace: true })
+      const destination = (location.state as { from?: string } | null)?.from ?? '/'
+      navigate(destination, { replace: true })
     } catch {
       // error surfaced via auth context below
     } finally {

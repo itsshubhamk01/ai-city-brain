@@ -1,9 +1,14 @@
+import { Link } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 import { useLocationContext } from '../hooks/useLocationContext'
 import { LocationPicker } from '../components/LocationPicker'
 import { WeatherPanel } from '../components/WeatherPanel'
 import { MumbaiMap } from '../components/MumbaiMap'
 import { AuthPanel } from '../components/AuthPanel'
-import { Building2, MapPin, Sparkles, ShieldCheck, CloudSun, UserCheck } from 'lucide-react'
+import {
+  Building2, MapPin, Sparkles, ShieldCheck, CloudSun, UserCheck,
+  Brain, Radio, Zap, Network, LogOut,
+} from 'lucide-react'
 
 function MumbaiIllustration() {
   return (
@@ -32,6 +37,8 @@ function MumbaiIllustration() {
   )
 }
 
+const STAT_BADGES = ['Real live weather', 'Real GPS location', 'Zero fake data', 'Free, always']
+
 const EXPLAIN_ITEMS = [
   {
     icon: MapPin,
@@ -46,7 +53,7 @@ const EXPLAIN_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Why it's needed",
-    text: 'Mumbai is a huge, fast-changing city. Real-time, honest information \u2014 including saying "unavailable" when data genuinely isn\u2019t available \u2014 helps people make quicker, better decisions.',
+    text: 'Mumbai is a huge, fast-changing city. Honest, real-time information \u2014 including saying "unavailable" when data genuinely isn\u2019t there \u2014 helps people decide faster.',
   },
   {
     icon: Sparkles,
@@ -55,7 +62,15 @@ const EXPLAIN_ITEMS = [
   },
 ]
 
+const BRAIN_ITEMS = [
+  { icon: Radio, title: 'Senses', text: 'Your device\u2019s GPS and Mumbai\u2019s live weather sensors act like the city\u2019s senses \u2014 constantly picking up what\u2019s happening right now.' },
+  { icon: Network, title: 'Nerves', text: 'That information travels over the internet the way a nerve signal travels through your body \u2014 fast, and to the right place.' },
+  { icon: Brain, title: 'The brain', text: 'A central layer \u2014 the server and AI \u2014 receives everything, makes sense of it, and decides what to show you.' },
+  { icon: Zap, title: 'The reflex', text: 'Just like pulling your hand back from something hot happens before you consciously think about it, the goal is a city platform that reacts to real conditions quickly, not on a delay.' },
+]
+
 export default function LandingPage() {
+  const { user, logout } = useAuth()
   const { location } = useLocationContext()
 
   return (
@@ -68,9 +83,19 @@ export default function LandingPage() {
             </div>
             <span className="font-display text-sm font-semibold">AI City Brain</span>
           </div>
-          <nav className="flex items-center gap-5 text-sm">
+          <nav className="flex items-center gap-4 text-sm">
             <a href="#about" className="text-ink-muted hover:text-ink hidden sm:inline">About</a>
-            <a href="#auth" className="btn-secondary !py-1.5">Sign in</a>
+            <Link to="/app" className="text-ink-muted hover:text-ink hidden sm:inline">Architecture Demo</Link>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-ink-muted hidden sm:inline">Namaste, {user.fullName.split(' ')[0]}</span>
+                <button onClick={logout} className="btn-secondary !py-1.5">
+                  <LogOut size={14} /> Sign out
+                </button>
+              </div>
+            ) : (
+              <a href="#auth" className="btn-secondary !py-1.5">Sign in</a>
+            )}
           </nav>
         </div>
       </header>
@@ -100,7 +125,14 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-wrap gap-3 mt-7">
               <a href="#explore" className="btn-primary !px-5 !py-2.5">Explore Mumbai Now</a>
-              <a href="#auth" className="btn-secondary !px-5 !py-2.5">Sign in</a>
+              {!user && <a href="#auth" className="btn-secondary !px-5 !py-2.5">Sign in</a>}
+            </div>
+            <div className="flex flex-wrap gap-2 mt-6">
+              {STAT_BADGES.map((s) => (
+                <span key={s} className="text-[11px] font-mono text-ink-faint bg-raised rounded-full px-3 py-1 border border-hairline">
+                  {s}
+                </span>
+              ))}
             </div>
           </div>
           <MumbaiIllustration />
@@ -134,7 +166,7 @@ export default function LandingPage() {
           <h2 className="font-display text-lg font-semibold text-ink mb-6 text-center">How AI City Brain helps you</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {EXPLAIN_ITEMS.map(({ icon: Icon, title, text }) => (
-              <div key={title} className="panel p-5">
+              <div key={title} className="panel p-5 hover:border-accent/40 transition-colors">
                 <div className="h-9 w-9 rounded-lg bg-accent/15 flex items-center justify-center mb-3">
                   <Icon size={17} className="text-accent" />
                 </div>
@@ -146,20 +178,55 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="auth" className="border-t border-hairline">
-        <div className="max-w-md mx-auto px-6 py-14">
-          <div className="flex items-center gap-2 justify-center mb-5">
-            <UserCheck size={16} className="text-accent" />
-            <h2 className="font-display text-lg font-semibold text-ink">Sign in or create an account</h2>
+      {/* Brain-inspired architecture explainer */}
+      <section className="border-t border-hairline bg-surface/40">
+        <div className="max-w-6xl mx-auto px-6 py-14">
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/10 border border-accent/20 px-3 py-1 text-xs text-accent-soft font-medium mb-3">
+              <Brain size={12} /> The idea behind the name
+            </span>
+            <h2 className="font-display text-lg font-semibold text-ink">Why "City Brain"?</h2>
+            <p className="text-sm text-ink-muted max-w-xl mx-auto mt-2 leading-relaxed">
+              The concept is inspired by academic research on brain-like smart-city architecture \u2014
+              the idea that a city can sense, think, and react a little like a living body does.
+            </p>
           </div>
-          <AuthPanel />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {BRAIN_ITEMS.map(({ icon: Icon, title, text }, i) => (
+              <div key={title} className="relative panel p-5">
+                <span className="absolute -top-2.5 -left-2.5 h-6 w-6 rounded-full bg-accent text-white text-[11px] font-mono flex items-center justify-center">
+                  {i + 1}
+                </span>
+                <div className="h-9 w-9 rounded-lg bg-raised flex items-center justify-center mb-3">
+                  <Icon size={17} className="text-accent" />
+                </div>
+                <h3 className="text-sm font-semibold text-ink mb-1.5">{title}</h3>
+                <p className="text-xs text-ink-muted leading-relaxed">{text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {!user && (
+        <section id="auth" className="border-t border-hairline">
+          <div className="max-w-md mx-auto px-6 py-14">
+            <div className="flex items-center gap-2 justify-center mb-5">
+              <UserCheck size={16} className="text-accent" />
+              <h2 className="font-display text-lg font-semibold text-ink">Sign in or create an account</h2>
+            </div>
+            <AuthPanel />
+          </div>
+        </section>
+      )}
 
       <footer className="border-t border-hairline">
         <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-ink-faint">AI City Brain \u2014 Intelligent Smart City Digital Twin for Mumbai</p>
-          <p className="text-xs text-ink-faint">Created by Shubham Tulashidas Kadam</p>
+          <div className="flex items-center gap-4">
+            <Link to="/app" className="text-xs text-ink-faint hover:text-ink-muted">Multi-Agent Architecture Demo</Link>
+            <p className="text-xs text-ink-faint">Created by Shubham Tulashidas Kadam</p>
+          </div>
         </div>
       </footer>
     </div>
