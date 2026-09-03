@@ -58,6 +58,13 @@
   background: #0B1120 !important;
   font-family: 'Inter', sans-serif;
 }
+/* Standard OpenStreetMap tiles are free with no API key, but light-themed by
+   default. This filter recolors them to match the app's dark UI — the same
+   technique most "dark mode map" implementations use absent a dedicated dark
+   tile provider. */
+.map-tiles-dark {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.85) saturate(0.4);
+}
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
   background: #16213A;
   color: #E7ECF7;

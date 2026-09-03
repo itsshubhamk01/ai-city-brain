@@ -31,8 +31,9 @@ export function MumbaiMap({ selected }: { selected?: { lat: number; lng: number;
     <div className="rounded-xl overflow-hidden border border-hairline h-72 sm:h-96">
       <MapContainer center={selected ?? MUMBAI_CENTER} zoom={selected ? 13 : 11} className="h-full w-full" zoomControl={true}>
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          className="map-tiles-dark"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {selected && (
           <>
