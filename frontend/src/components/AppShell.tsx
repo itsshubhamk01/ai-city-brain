@@ -74,7 +74,7 @@ export function AppShell() {
           </button>
         </div>
         <div className="px-3 -mt-2 mb-2">
-          <Link to="/" className="flex items-center gap-1.5 text-[11px] text-accent-soft hover:text-accent px-2 py-1">
+          <Link to="/dashboard" className="flex items-center gap-1.5 text-[11px] text-accent-soft hover:text-accent px-2 py-1">
             <ArrowLeft size={12} /> Back to the real Mumbai page
           </Link>
         </div>

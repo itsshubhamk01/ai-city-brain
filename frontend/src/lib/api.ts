@@ -6,6 +6,7 @@ import type {
   DecisionFeedItem,
   IndianState,
   Incident,
+  InfrastructureResponse,
   LoginResponse,
   MapData,
   RegisterRequest,
@@ -114,6 +115,7 @@ export const api = {
   reverseGeocode: (lat: number, lng: number) =>
     request<ReverseGeocodeResponse>(`/api/v1/geo/reverse?lat=${lat}&lng=${lng}`),
   weather: (lat: number, lng: number) => request<WeatherResponse>(`/api/v1/weather?lat=${lat}&lng=${lng}`),
+  mumbaiInfrastructure: () => request<InfrastructureResponse>('/api/v1/mumbai/infrastructure'),
 }
 
 export function wsUrl(): string {

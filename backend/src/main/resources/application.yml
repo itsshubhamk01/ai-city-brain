@@ -30,7 +30,7 @@ app:
     expiration-minutes: ${JWT_EXPIRATION_MINUTES:120}
   simulation:
     tick-interval-ms: ${SIM_TICK_INTERVAL_MS:4000}
-    autostart: ${SIM_AUTOSTART:true}
+    autostart: ${SIM_AUTOSTART:false}
   ai:
     # Free by default: rule-based natural-language insight generator, no external API needed.
     # Set provider=llm and ANTHROPIC_API_KEY (or OPENAI_API_KEY) to swap in a real model — see docs/ARCHITECTURE.md.

@@ -316,3 +316,22 @@ export interface SelectedLocation {
   source: 'gps' | 'search' | 'default'
   accuracyM: number | null
 }
+
+// --- Real Mumbai infrastructure (hospitals, police, fire) ---
+
+export interface InfrastructurePoi {
+  id: string
+  type: 'HOSPITAL' | 'POLICE' | 'FIRE_STATION'
+  name: string
+  lat: number
+  lng: number
+}
+
+export interface InfrastructureResponse {
+  available: boolean
+  unavailableReason: string | null
+  fetchedAt: string
+  hospitals: InfrastructurePoi[]
+  policeStations: InfrastructurePoi[]
+  fireStations: InfrastructurePoi[]
+}

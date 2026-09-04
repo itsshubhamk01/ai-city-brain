@@ -6,6 +6,10 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { AppShell } from './components/AppShell'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
+import DashboardPage from './pages/DashboardPage'
+import CityMapPage from './pages/CityMapPage'
+import WeatherDetailPage from './pages/WeatherDetailPage'
+import ProfilePage from './pages/ProfilePage'
 import CommandCenterPage from './pages/CommandCenterPage'
 import MapPage from './pages/MapPage'
 import IncidentsPage from './pages/IncidentsPage'
@@ -15,7 +19,7 @@ import SimulationPage from './pages/SimulationPage'
 function LoginRoute() {
   const { user, loading } = useAuth()
   if (loading) return null
-  if (user) return <Navigate to="/" replace />
+  if (user) return <Navigate to="/dashboard" replace />
   return <LoginPage />
 }
 
@@ -31,7 +35,13 @@ export default function App() {
               <Route path="/explore" element={<Navigate to="/" replace />} />
               <Route path="/login" element={<LoginRoute />} />
 
-              {/* Protected — the original NovaCity digital-twin simulation demo */}
+              {/* Protected — the real Mumbai experience, reached after signing in */}
+              <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+              <Route path="/citymap" element={<ProtectedRoute><CityMapPage /></ProtectedRoute>} />
+              <Route path="/weather" element={<ProtectedRoute><WeatherDetailPage /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+
+              {/* Protected — the original NovaCity multi-agent architecture demo (fictional data) */}
               <Route
                 path="/app"
                 element={

@@ -19,7 +19,7 @@ export default function LoginPage() {
     setSubmitting(true)
     try {
       await login(u, p)
-      const destination = (location.state as { from?: string } | null)?.from ?? '/'
+      const destination = (location.state as { from?: string } | null)?.from ?? '/dashboard'
       navigate(destination, { replace: true })
     } catch {
       // error surfaced via auth context

@@ -24,7 +24,7 @@ export function AuthPanel() {
       } else {
         await register({ username, password, fullName, email })
       }
-      const destination = (location.state as { from?: string } | null)?.from ?? '/'
+      const destination = (location.state as { from?: string } | null)?.from ?? '/dashboard'
       navigate(destination, { replace: true })
     } catch {
       // error surfaced via auth context below

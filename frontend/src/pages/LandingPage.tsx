@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useLocationContext } from '../hooks/useLocationContext'
@@ -34,6 +35,24 @@ function MumbaiIllustration() {
         <animate attributeName="opacity" values="0.8;0;0.8" dur="2.5s" repeatCount="indefinite" />
       </circle>
     </svg>
+  )
+}
+
+function HeroVisual() {
+  const [photoFailed, setPhotoFailed] = useState(false)
+
+  if (photoFailed) {
+    return <MumbaiIllustration />
+  }
+
+  return (
+    <img
+      src="/images/hero-mumbai.jpg"
+      alt="Mumbai skyline"
+      onError={() => setPhotoFailed(true)}
+      className="w-full h-auto max-w-md mx-auto rounded-2xl border border-hairline object-cover"
+      style={{ maxHeight: 320 }}
+    />
   )
 }
 
@@ -88,7 +107,7 @@ export default function LandingPage() {
             <Link to="/app" className="text-ink-muted hover:text-ink hidden sm:inline">Architecture Demo</Link>
             {user ? (
               <div className="flex items-center gap-3">
-                <span className="text-ink-muted hidden sm:inline">Namaste, {user.fullName.split(' ')[0]}</span>
+                <Link to="/dashboard" className="btn-primary !py-1.5">Go to Dashboard</Link>
                 <button onClick={logout} className="btn-secondary !py-1.5">
                   <LogOut size={14} /> Sign out
                 </button>
@@ -135,7 +154,7 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-          <MumbaiIllustration />
+          <HeroVisual />
         </div>
       </section>
 
