@@ -33,11 +33,13 @@ public class WeatherService {
     private static final String BASE_URL = "https://api.open-meteo.com/v1/forecast";
     private static final Duration CACHE_TTL = Duration.ofMinutes(10);
 
-    private final HttpClient httpClient = HttpClient.newBuilder()
-        .connectTimeout(Duration.ofSeconds(5))
-        .build();
+    private final HttpClient httpClient;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Map<String, CacheEntry> cache = new ConcurrentHashMap<>();
+
+    public WeatherService(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
 
     public WeatherDtos.WeatherResponse fetchWeather(double lat, double lng) {
         String key = "%.2f,%.2f".formatted(lat, lng);

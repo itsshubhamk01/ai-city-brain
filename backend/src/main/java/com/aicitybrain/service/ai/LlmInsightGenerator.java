@@ -31,9 +31,7 @@ public class LlmInsightGenerator {
     private static final String ANTHROPIC_ENDPOINT = "https://api.anthropic.com/v1/messages";
     private static final String ANTHROPIC_VERSION = "2023-06-01";
 
-    private final HttpClient httpClient = HttpClient.newBuilder()
-        .connectTimeout(Duration.ofSeconds(5))
-        .build();
+    private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
     @Value("${app.ai.provider}")
@@ -45,8 +43,9 @@ public class LlmInsightGenerator {
     @Value("${app.ai.anthropic-model}")
     private String model;
 
-    public LlmInsightGenerator(ObjectMapper objectMapper) {
+    public LlmInsightGenerator(ObjectMapper objectMapper, HttpClient httpClient) {
         this.objectMapper = objectMapper;
+        this.httpClient = httpClient;
     }
 
     public boolean isEnabled() {

@@ -36,15 +36,17 @@ public class GeocodingService {
     private static final Duration MIN_INTERVAL = Duration.ofMillis(1100);
     private static final Duration CACHE_TTL = Duration.ofHours(6);
 
-    private final HttpClient httpClient = HttpClient.newBuilder()
-        .connectTimeout(Duration.ofSeconds(5))
-        .build();
+    private final HttpClient httpClient;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Map<String, Object> cache = new ConcurrentHashMap<>();
     private final Map<String, Instant> cacheExpiry = new ConcurrentHashMap<>();
 
     private volatile Instant lastRequestAt = Instant.EPOCH;
     private final Object rateLimitLock = new Object();
+
+    public GeocodingService(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
 
     public GeoDtos.SearchResponse search(String query) {
         String cacheKey = "search:" + query.toLowerCase();

@@ -38,13 +38,15 @@ public class MumbaiInfrastructureService {
     // Greater Mumbai bounding box: south, west, north, east
     private static final String BBOX = "18.89,72.75,19.30,73.05";
 
-    private final HttpClient httpClient = HttpClient.newBuilder()
-        .connectTimeout(Duration.ofSeconds(8))
-        .build();
+    private final HttpClient httpClient;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private volatile InfrastructureDtos.InfrastructureResponse cached;
     private volatile Instant cachedAt = Instant.EPOCH;
+
+    public MumbaiInfrastructureService(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
 
     public synchronized InfrastructureDtos.InfrastructureResponse getInfrastructure() {
         if (cached != null && Duration.between(cachedAt, Instant.now()).compareTo(CACHE_TTL) < 0) {
